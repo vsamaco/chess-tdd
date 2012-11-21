@@ -57,7 +57,7 @@ module Chess
       end
       
       context "pawn is blocked" do
-        before(:each) { board.stub(:piece_at? => true) }
+        before(:each) { board.stub(:get_piece_at? => double("Piece")) }
         
         context "destination is occupied" do
           it "should be false" do
