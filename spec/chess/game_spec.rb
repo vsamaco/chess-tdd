@@ -11,7 +11,6 @@ module Chess
     end
     
     describe "#blocked?" do
-      
       context "location is occupied" do
         it "should be true" do
           board.stub(:get_piece_at => double("Piece"))
@@ -28,7 +27,6 @@ module Chess
     end
     
     describe "#can_move_to?" do   
-      
       context "valid basic pawn move" do
         it "should return true" do
           subject.can_move_to?(0, 1).should be_true
@@ -192,14 +190,18 @@ module Chess
     end
     
     describe "#get_piece_at" do
-      it "should return true if piece exists at location" do
-        piece.stub(:location => [0, 0])
-        subject.pieces << piece
-        subject.get_piece_at(0, 0).should be_true
+      context "location is occupied" do
+        it "should be instance of Piece" do
+          piece.stub(:location => [0, 0])
+          subject.pieces << piece
+          subject.get_piece_at(0, 0).should == piece
+        end
       end
       
-      it "should return false if piece doesn't exists at location" do
-        subject.get_piece_at(0,0).should be_false
+      context "location is unoccupied" do
+        it "should be false" do
+          subject.get_piece_at(0,0).should be_false
+        end
       end
     end
   end
