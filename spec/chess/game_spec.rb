@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Chess
   describe Piece do
-    let(:board) { double("Board") }
+    let(:board) { double("Board", :get_piece_at => nil, :get_baseline => nil) }
     let(:team) { TEAM_WHITE }
     subject { Piece.new({x: 0, y: 0, board: board, team: team}) }
     
@@ -11,6 +11,7 @@ module Chess
     end
     
     describe "#blocked?" do
+      
       context "location is occupied" do
         it "should be true" do
           board.stub(:get_piece_at => double("Piece"))
@@ -27,7 +28,6 @@ module Chess
     end
     
     describe "#can_move_to?" do   
-      before(:each) { board.stub(:get_piece_at => nil) }
       
       context "valid basic pawn move" do
         it "should return true" do
@@ -44,6 +44,7 @@ module Chess
       context "pawn move at baseline" do
         it "should be true" do
           subject.x, subject.y = 0, 1
+          board.stub(:get_baseline => 1)
           subject.can_move_to?(0, 3).should be_true
         end
       end
@@ -74,8 +75,7 @@ module Chess
       end
     end
     
-    describe "#team" do  
-      before(:each) { board.stub(:get_piece_at => nil) }
+    describe "#team" do
       
       it "should belong a team" do
         subject.team.should == team

@@ -41,7 +41,7 @@ module Chess
     end
     
     def at_baseline?
-      (@team == TEAM_WHITE && y == 1) || (@team == TEAM_BLACK && y == 7)
+      y == board.get_baseline(@team)
     end
     
     def blocked?(x, y)
@@ -82,11 +82,15 @@ module Chess
   end
   
   class Board
-    attr_accessor :pieces, :width, :height
+    attr_accessor :pieces, :width, :height, :baseline
     
     def initialize(params={})
       @pieces = Array.new
       @width, @height = params[:width], params[:height]
+      
+      @baseline = {}
+      @baseline[TEAM_WHITE] = 1
+      @baseline[TEAM_BLACK] = @height - 1
     end
     
     def add_piece(piece)
@@ -108,6 +112,10 @@ module Chess
     
     def valid_location?(x, y)
       x.between?(0, @width) && y.between?(0, @height)
+    end
+    
+    def get_baseline(team)
+      @baseline[team]
     end
   end
   
