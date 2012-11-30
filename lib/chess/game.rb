@@ -45,7 +45,7 @@ module Chess
     end
     
     def blocked?(x, y)
-      board.get_piece_at(x, y) || route_blocked?(x, y) # check destination and route
+      return board.get_piece_at(x, y) || route_blocked?(x, y) # check destination and route
     end
     
     def route_blocked?(x, y)
